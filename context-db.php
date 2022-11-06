@@ -30,19 +30,19 @@
 ////////////////////////////////////////////
 
 /** F22, PHP (on GCP, local XAMPP, or CS server) connect to MySQL (on local XAMPP) **/
-$username = 'nic4ud';
-$password = 'Mickeymouse01!';
-$host = 'localhost:3306';
-$dbname = 'demo';
-$dsn = "mysql:host=$host;dbname=$dbname";  
+// $username = 'nic4ud';
+// $password = 'Mickeymouse01!';
+// $host = 'localhost:3306';
+// $dbname = 'demo';
+// $dsn = "mysql:host=$host;dbname=$dbname";  
 ////////////////////////////////////////////
 
 // /** F22, PHP (on GCP, local XAMPP, or CS server) connect to MySQL (on CS server) **/
-//  $username = 'nic4ud'; 
-//  $password = 'Mickeymouse01!';
-//  $host = 'mysql01.cs.virginia.edu';
-//  $dbname = 'nic4ud_c';
-//  $dsn = "mysql:host=$host;dbname=$dbname";
+ $username = 'nic4ud'; 
+ $password = 'Mickeymouse01!';
+ $host = 'mysql01.cs.virginia.edu';
+ $dbname = 'nic4ud_c';
+ $dsn = "mysql:host=$host;dbname=$dbname";
 
 ////////////////////////////////////////////
 
