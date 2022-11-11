@@ -1,6 +1,7 @@
 <?php
-    #require("connect-db.php"); # UNCOMMENT THIS
-    #require("recipebook-db.php"); # UNCOMMENT THIS
+    require("context-db.php"); # UNCOMMENT THIS
+    require("recipebook-db.php"); # UNCOMMENT THIS
+    $list_of_recipes = getAllRecipes();
 ?>
 
 <!DOCTYPE html>
@@ -39,9 +40,16 @@
 </center>
 
 <div>
-<?php #foreach ()
-        #include("recipecard.html")
-    ?>
+<?php foreach ($list_of_recipes as $recipe_info): ?>
+  <tr>
+     <td><?php echo $recipe_info['userID']; ?></td>
+     <td><?php echo $recipe_info['author']; ?></td>        
+     <td><?php echo $recipe_info['title']; ?></td>
+     <p></p>                
+  </tr>
+<?php endforeach; ?>
+
+
 </div>
 
 </body>
