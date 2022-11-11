@@ -1,10 +1,17 @@
 <?php
-    require("connect-db.php");
-    require("recipebook-db.php");
+    #require("connect-db.php"); # UNCOMMENT THIS
+    #require("recipebook-db.php"); # UNCOMMENT THIS
 ?>
 
 <!DOCTYPE html>
 <html>
+
+<div>
+    <?php
+        include("navbar.html")
+    ?>
+</div>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,18 +28,23 @@
  
 </head>
 
+
+
+
 <body>
+
+<center>
+<p></p>
+<a> YOU ARE LOOKING AT DA HOMEPAGE OF MI RECIPE BOOK </a>
+</center>
+
 <div>
-    <?php
-        include("navbar.html")
+<?php #foreach ()
+        #include("recipecard.html")
     ?>
 </div>
 
-<div>
-<?php foreach ()
-        include("recipecard.html")
-    ?>
-</div>
 </body>
+
 
 </html>
