@@ -1,13 +1,24 @@
 <?php
-    require("connect-db.php");
-    require("recipebook-db.php");
-
-    $list_of_my_recipes = getAllMyRecipes();
+// Initialize the session
+session_start();
+ 
+// Check if the user is logged in, if not then redirect him to login page
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: login.php");
+    exit;
+}
 ?>
 
 <?php
-if($_SERVER['REQUEST_METHOD']==POST)
-(
+    require("context-db.php");
+    require("recipebook-db.php");
+
+    $list_of_my_recipes = getAllMyRecipes($_SESSION["id"]);
+?>
+
+<?php
+if($_SERVER['REQUEST_METHOD']=='POST')
+{
     if(!empty($_POST['btnAction']) && $_POST['btnAction'] =='Add')
     {
         addRecipe($_POST['userID'], $_POST['recipeID'], $_POST['author'], $_POST['title'], $_POST['category'], $_POST['time'],
@@ -18,7 +29,7 @@ if($_SERVER['REQUEST_METHOD']==POST)
     deleteFriend($_POST['recipe_to_delete']);
     $list_of_my_recipes = getAllMyRecipes();
   }
-)
+}
 ?>
 
 
@@ -48,9 +59,9 @@ if($_SERVER['REQUEST_METHOD']==POST)
 </div>
 
 <div>
-<!-- <?php
+<?php
         include("recipecard.html")
-    ?> -->
+    ?>
 
     <form name="addRecipeForm" action="recipespage.php" method="post">
         <div class="row">
@@ -70,12 +81,12 @@ if($_SERVER['REQUEST_METHOD']==POST)
             
         </div>
         <div class="row">
-           Time:
+        Time:
             <input type="text" class="form-control" name="time" required/>
             
         </div>
         <div class="row">
-           Instructions:
+        Instructions:
             <input type="text" class="form-control" name="instructions" required/>
             
         </div>
@@ -97,19 +108,33 @@ if($_SERVER['REQUEST_METHOD']==POST)
         </div>  
     </form>
 
-    //the delete button is displayed next to every one of the recipes in my recipe
-    <?php foreach ($list_of_my_recipes as $recipes): ?>
-    /* Display contents of recipes here */
-
-        <form action = "recipespage.php" method="post">
-            <input type="submit" value="Delete" name="btnAction" class="btn btn-danger" />
-            <input type="hidden" name="recipe_to_delete" value="<?php echo $recipes['name']?>" />
-            
-        </form>
-    <?php endforeach; ?>
-
+    <!-- //the delete button is displayed next to every one of the recipes in my recipe -->
+    <div class='row'>
+        <?php foreach ($list_of_my_recipes as $recipe_info): ?>
+        <!-- /* Display contents of recipes here */ -->
+            <div class='col-sm-3'>
+                <tr>
+                    <!-- I stole the contents of recipecard.php bc I didn't know how to bring the content from there to here lol
+                            if you know how to do that feel free to change this. -->
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="..." alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title"><?php echo $recipe_info['title']?></h5>
+                            <p class="card-text">That shit is bussin', respectfully</p>
+                            <a href="#" class="btn btn-primary">More Details</a> <!-- change the ref to be the recipe's page-->
+                            <form action = "recipespage.php" method="post">
+                                <input type="submit" value="Delete" name="btnAction" class="btn btn-danger" />
+                                <input type="hidden" name="recipe_to_delete" value="<?php echo $recipes['name']?>" />
+                            </form>
+                        </div>
+                    </div>
+                    <p></p>
+                </tr>
+            </div>
+        <?php endforeach; ?>
+    </div>
 </div>
-</div>
+
 </body>
 
 </html>

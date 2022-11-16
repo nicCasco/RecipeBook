@@ -38,19 +38,27 @@
 <p></p>
 <a> YOU ARE LOOKING AT DA HOMEPAGE OF MI RECIPE BOOK </a>
 </center>
+<p></p>
 
-<div>
-<?php foreach ($list_of_recipes as $recipe_info): ?>
-  <tr>
-     <td><?php echo $recipe_info['userID']; ?></td>
-     <td><?php echo $recipe_info['author']; ?></td>        
-     <td><?php echo $recipe_info['title']; ?></td>
-     <p></p>                
-  </tr>
-<?php endforeach; ?>
-
-
-</div>
+<div class='row'>
+        <?php foreach ($list_of_recipes as $recipe_info): ?>
+        <!-- /* Display contents of recipes here */ -->
+            <div class='col-sm-3'>
+                <tr>
+                    <!-- I stole the contents of recipecard.php bc I didn't know how to bring the content from there to here lol
+                            if you know how to do that feel free to change this. -->
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="..." alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title"><?php echo $recipe_info['title']?></h5>
+                            <p class="card-text"><?php echo $recipe_info['author']; ?></p>
+                        </div>
+                    </div>
+                    <p></p>
+                </tr>
+            </div>
+        <?php endforeach; ?>
+    </div>
 
 </body>
 

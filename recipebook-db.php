@@ -2,16 +2,18 @@
 //TODO: pass values to functions
 
 //function that gets the recipes of the current logged in user
-function getAllMyRecipes()
+function getAllMyRecipes($userID)
 {
     global $db;
-    $query = "SELECT * FROM userSubmittedRecipes WHERE userID = :userID";
+    $query = "SELECT * FROM recipes WHERE userID=:userID";
     //figure out how to get userID from login
     try{
         $statement=$db->prepare($query);
         $statement->bindValue(':userID', $userID);
         $statement->execute();
+        $result = $statement->fetchAll();
         $statement->closeCursor();
+        return $result;
     }
     catch (Exception $e)
     {
