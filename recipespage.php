@@ -21,8 +21,7 @@ if($_SERVER['REQUEST_METHOD']=='POST')
 {
     if(!empty($_POST['btnAction']) && $_POST['btnAction'] =='Add')
     {
-        addRecipe($_POST['userID'], $_POST['recipeID'], $_POST['author'], $_POST['title'], $_POST['category'], $_POST['time'],
-        $_POST['instructions'], $_POST['image'], $_POST['video']);
+        addRecipe($_SESSION['id'], $_POST['author'], $_POST['title'], $_POST['category']);
     }
     else if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Delete")
   { 
@@ -80,12 +79,12 @@ if($_SERVER['REQUEST_METHOD']=='POST')
             <input type="text" class="form-control" name="category" required/>
             
         </div>
-        <div class="row">
+        <!-- <div class="row">
         Time:
-            <input type="text" class="form-control" name="time" required/>
+            <input type="text" class="form-control" name="timeCook" required/>
             
-        </div>
-        <div class="row">
+        </div> -->
+        <!-- <div class="row">
         Instructions:
             <input type="text" class="form-control" name="instructions" required/>
             
@@ -101,7 +100,7 @@ if($_SERVER['REQUEST_METHOD']=='POST')
             Video:
             <input type="text" class="form-control" name="video" required/>
             
-        </div>
+        </div> -->
         <div>
             <input type="submit" value="Add" name="btnAction" class="btn btn-dark" 
                 title="Insert a recipe" />                          

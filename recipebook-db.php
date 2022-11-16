@@ -60,23 +60,30 @@ function updateRecipe($userID, $recipeID, $ingredientsList, $instructions) {
 
 // //create hidden input. type hidden input for user id and recipe id that will not be displayed on the id. 
 // //function that will add a recipe 
-function addRecipe($userID, $author, $title,  $ingredientsList, $instructions, $category, $time, $image, $video)
+function addRecipe($userID, $author, $title, $category)
 {
     global $db;
-    $query = "INSERT INTO recipes VALUES(:userID, :author, :title, :category, :time, :image, :video)";
+    $query = "INSERT INTO recipes VALUES(:userID, :recipeID, :author, :title, :category, :time, :image, :video)";
     $queryCount = "SELECT COUNT(*) from recipes";
+    $queryCount = $db->prepare($queryCount);
+    $queryCount->execute();
+    $returnQueryCount = $queryCount->fetch();
+    $count = $returnQueryCount[0] + 1;
     try{
         $statement = $db->prepare($query);
         $statement->bindValue(':userID', $userID);
-        $statement->bindValue($queryCount + 1, $recipeID);
+        $statement->bindValue('recipeID', $count);
         $statement->bindValue(':author', $author);
         $statement->bindValue(':title', $title);
         $statement->bindValue(':category', $category);
-        $statement->bindValue(':time', $time);
-        $statement->bindValue(':image', $image);
-        $statement->bindValue(':video', $video);     
+        $statement->bindValue(':time', 69);
+        $statement->bindValue(':image', null);
+        $statement->bindValue(':video', null);     
         $statement->execute();
         $statement->closeCursor();
+        if ($statement->rowCount() == 0){
+            echo "Failed to add a friend <br/>";
+        }
     }
     catch (Exception $e)
     {
@@ -85,33 +92,33 @@ function addRecipe($userID, $author, $title,  $ingredientsList, $instructions, $
     /*from the front end, I will be given an array of ingredients to traverse
     Traverse through ingredients and grab individual ingredients to submit querys for each.
     */
-   foreach ( $ingredientsList as $ingredient):
-        $addIngredients = "INSERT INTO recipeIngredients VALUES ( :userID, $queryCount+1, $ingredient)";
-        try{
-            $statement = $dv->prepare($addIngredients);
-            $statement->bindValue(':userID', $userID);
-            $statement->bindValue($queryCount + 1, $recipeID);
-            $statement->bindValue($ingredient, $ingredients);
-        }
-        catch (Exception $e)
-        {
-            echo $e->getMessage();
-        }
+//    foreach ( $ingredientsList as $ingredient):
+//         $addIngredients = "INSERT INTO recipeIngredients VALUES ( :userID, $queryCount+1, $ingredient)";
+//         try{
+//             $statement = $dv->prepare($addIngredients);
+//             $statement->bindValue(':userID', $userID);
+//             $statement->bindValue($queryCount + 1, $recipeID);
+//             $statement->bindValue($ingredient, $ingredients);
+//         }
+//         catch (Exception $e)
+//         {
+//             echo $e->getMessage();
+//         }
 
-        $addInstructions = "INSERT INTO recipeInstructions VALUES ( :userID, $queryCount+1, :instructions)";
-        try{
-            $statement = $dv->prepare($addInstructions);
-            $statement->bindValue(':userID', $userID);
-            $statement->bindValue($queryCount + 1, $recipeID);
-            $statement->bindValue(':instructions', $instructions);
-        }
+//         $addInstructions = "INSERT INTO recipeInstructions VALUES ( :userID, $queryCount+1, :instructions)";
+//         try{
+//             $statement = $dv->prepare($addInstructions);
+//             $statement->bindValue(':userID', $userID);
+//             $statement->bindValue($queryCount + 1, $recipeID);
+//             $statement->bindValue(':instructions', $instructions);
+//         }
     
 
-        catch (Exception $e)
-        {
-            echo $e->getMessage();
-        }
-    endforeach;
+//         catch (Exception $e)
+//         {
+//             echo $e->getMessage();
+//         }
+//     endforeach;
 }
 
 // //function that will delete a selected recipe
