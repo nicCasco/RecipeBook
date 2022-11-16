@@ -22,15 +22,15 @@ function getAllMyRecipes($userID)
     
 };
 
-function updateRecipe($userID, $recipeID, $ingredientsList, $instructions) {
+function updateRecipe($userID, $recipeID, $category) {
 
 	global $db;
-	$queryInstructions = "UPDATE recipeInstructions SET instructions=:instructions WHERE userID=:userID AND recipeID=:recipID";
+	$query = "UPDATE recipe SET category=:category WHERE userID=:userID AND recipeID=:recipeID";
     try{
-        $statement = $db->prepare($queryInstructions);
+        $statement = $db->prepare($query);
         $statement->bindValue(':userID', $userID);
         $statement->bindValue(':recipeID', $recipeID);
-        $statement->bindValue(':instructions', $instructions);
+        $statement->bindValue(':category', $category);
         $statement->execute();
         $statement->closeCursor();
     }
@@ -39,23 +39,36 @@ function updateRecipe($userID, $recipeID, $ingredientsList, $instructions) {
         echo $e->getMessage();
     }
 
-    global $db;
+    // global $db;
 
-    foreach ( $ingredientsList as $ingredient):
-        $queryIngredients = "UPDATE recipeIngredients SET ingredients=$ingredient WHERE userID=:userID AND recipeID=:recipID";
-        try{
-            $statement = $db->prepare($queryInsgredients);
-            $statement->bindValue(':userID', $userID);
-            $statement->bindValue(':recipeID', $recipeID);
-            $statement->bindValue($ingredient, $ingredients);
-            $statement->execute();
-            $statement->closeCursor();
-        }
-        catch (Exception $e)
-        {
-            echo $e->getMessage();
-        }
-    endforeach;
+    // foreach ( $ingredientsList as $ingredient):
+    //     $queryIngredients = "UPDATE recipeIngredients SET ingredients=$ingredient WHERE userID=:userID AND recipeID=:recipID";
+    //     try{
+    //         $statement = $db->prepare($queryInsgredients);
+    //         $statement->bindValue(':userID', $userID);
+    //         $statement->bindValue(':recipeID', $recipeID);
+    //         $statement->bindValue($ingredient, $ingredients);
+    //         $statement->execute();
+    //         $statement->closeCursor();
+    //     }
+    //     catch (Exception $e)
+    //     {
+    //         echo $e->getMessage();
+    //     }
+    // endforeach;
+}
+
+function getRecipeForUpdate($userID, $recipeID)
+{
+    global $db;
+    $query = "SELECT * FROM recipes WHERE userID = :userID AND recipeID = :recipeID";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':userID', $userID);
+    $statement->bindValue(':recipeID', $recipeID);
+    $statement->execute();
+    $result = $statement->fetch();
+    $statement->closeCursor();
+    return $result;
 }
 
 // //create hidden input. type hidden input for user id and recipe id that will not be displayed on the id. 

@@ -14,6 +14,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     require("recipebook-db.php");
 
     $list_of_my_recipes = getAllMyRecipes($_SESSION["id"]);
+    $recipe_to_update = NULL;
 ?>
 
 <?php
@@ -23,11 +24,25 @@ if($_SERVER['REQUEST_METHOD']=='POST')
     {
         addRecipe($_SESSION['id'], $_POST['author'], $_POST['title'], $_POST['category'], $_POST['time']);
     }
+
     else if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Delete")
-  { 
+    { 
     deleteFriend($_POST['recipe_to_delete']);
     $list_of_my_recipes = getAllMyRecipes();
-  }
+    }
+
+    else if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Update")
+    {
+        $recipe_to_update = getRecipeForUpdate($_SESSION['id'], $_POST['recipe_to_update']);
+        echo $recipe_to_update['title'];
+    }
+
+    if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Confirm Update")
+    {
+        echo "this shit goes through";
+        updateRecipe($_SESSION['id'], $recipe_to_update['recipeID'], $_POST['category']);
+        $list_of_my_recipes = getAllMyRecipes($_SESSION["id"]);
+    }
 }
 ?>
 
@@ -58,30 +73,36 @@ if($_SERVER['REQUEST_METHOD']=='POST')
 </div>
 
 <div>
-<?php
-        include("recipecard.html")
-    ?>
+    <center><h1> My Recipes </h1></center>
 
     <form name="addRecipeForm" action="recipespage.php" method="post">
         <div class="row">
             Author:
-            <input type="text" class="form-control" name="author" required/>
+            <input type="text" class="form-control" name="author" required
+                value="<?php if ($recipe_to_update!=null) echo $recipe_to_update['author'] ?>"
+            />
 
         </div>
         <div class="row">
             Title:
-            <input type="text" class="form-control" name="title" required/>
+            <input type="text" class="form-control" name="title" required
+                value="<?php if ($recipe_to_update!=null) echo $recipe_to_update['title'] ?>"
+            />
             
         </div>
         /*Change so that it is chosen from a drop down list */
         <div class="row">
             Category:
-            <input type="text" class="form-control" name="category" required/>
+            <input type="text" class="form-control" name="category" required
+                value="<?php if ($recipe_to_update!=null) echo $recipe_to_update['category'] ?>"
+            />
             
         </div>
         <div class="row">
         Time:
-            <input type="text" class="form-control" name="time" required/>
+            <input type="text" class="form-control" name="time" required
+                value="<?php if ($recipe_to_update!=null) echo $recipe_to_update['time'] ?>"
+            />
             
         </div>
         <!-- <div class="row">
@@ -103,7 +124,9 @@ if($_SERVER['REQUEST_METHOD']=='POST')
         </div> -->
         <div>
             <input type="submit" value="Add" name="btnAction" class="btn btn-dark" 
-                title="Insert a recipe" />                          
+                title="Insert a recipe" />
+            <input type="submit" value="Confirm Update" name="btnAction" class="btn btn-primary"
+                title="Update a recipe" />                        
         </div>  
     </form>
 
@@ -124,6 +147,8 @@ if($_SERVER['REQUEST_METHOD']=='POST')
                             <form action = "recipespage.php" method="post">
                                 <input type="submit" value="Delete" name="btnAction" class="btn btn-danger" />
                                 <input type="hidden" name="recipe_to_delete" value="<?php echo $recipes['name']?>" />
+                                <input type="submit" value="Update" name="btnAction" class="btn btn-primary" />
+                                <input type="hidden" name="recipe_to_update" value="<?php echo $recipe_info['recipeID']?>" />
                             </form>
                         </div>
                     </div>

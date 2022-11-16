@@ -36,7 +36,7 @@
 
 <center>
 <p></p>
-<a> YOU ARE LOOKING AT DA HOMEPAGE OF MI RECIPE BOOK </a>
+<h1> Homepage </h1>
 </center>
 <p></p>
 
