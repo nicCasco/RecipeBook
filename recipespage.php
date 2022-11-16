@@ -21,7 +21,7 @@ if($_SERVER['REQUEST_METHOD']=='POST')
 {
     if(!empty($_POST['btnAction']) && $_POST['btnAction'] =='Add')
     {
-        addRecipe($_SESSION['id'], $_POST['author'], $_POST['title'], $_POST['category']);
+        addRecipe($_SESSION['id'], $_POST['author'], $_POST['title'], $_POST['category'], $_POST['time']);
     }
     else if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Delete")
   { 
@@ -73,17 +73,17 @@ if($_SERVER['REQUEST_METHOD']=='POST')
             <input type="text" class="form-control" name="title" required/>
             
         </div>
-        /*Change so that it is cchoosen from a drop down list */
+        /*Change so that it is chosen from a drop down list */
         <div class="row">
             Category:
             <input type="text" class="form-control" name="category" required/>
             
         </div>
-        <!-- <div class="row">
+        <div class="row">
         Time:
-            <input type="text" class="form-control" name="timeCook" required/>
+            <input type="text" class="form-control" name="time" required/>
             
-        </div> -->
+        </div>
         <!-- <div class="row">
         Instructions:
             <input type="text" class="form-control" name="instructions" required/>

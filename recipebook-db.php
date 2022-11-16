@@ -60,7 +60,7 @@ function updateRecipe($userID, $recipeID, $ingredientsList, $instructions) {
 
 // //create hidden input. type hidden input for user id and recipe id that will not be displayed on the id. 
 // //function that will add a recipe 
-function addRecipe($userID, $author, $title, $category)
+function addRecipe($userID, $author, $title, $category, $time)
 {
     global $db;
     $query = "INSERT INTO recipes VALUES(:userID, :recipeID, :author, :title, :category, :time, :image, :video)";
@@ -76,7 +76,7 @@ function addRecipe($userID, $author, $title, $category)
         $statement->bindValue(':author', $author);
         $statement->bindValue(':title', $title);
         $statement->bindValue(':category', $category);
-        $statement->bindValue(':time', 69);
+        $statement->bindValue(':time', $time);
         $statement->bindValue(':image', null);
         $statement->bindValue(':video', null);     
         $statement->execute();
