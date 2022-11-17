@@ -61,9 +61,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
 
 <!-- SOURCE dropdown: https://blog.hubspot.com/website/html-dropdown -->
+
 <div class="dropdown" method="post">
-    <link rel="stylesheet" href="dropdown.css">
-  <button class="dropbtn">Filter</button>
+<link rel="stylesheet" href="dropped.css">
+    <button class="dropbtn">Filter</button>
+  
   <div class="dropdown-content">
 
 
@@ -71,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     <!-- <button  >Title</button> -->
 
     <form action="homepage.php" method="post" >
-   <input type="submit" value="Title" name="btnAction"> 
+        <input type="submit" value="Title" name="btnAction"> 
     </form>
 
 
@@ -79,25 +81,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     <!-- <button $filtered = "author">Author</button> -->
 
     <form action="homepage.php" method="post">
-   <input type="submit" value="Author" name="btnAction">   
+        <input type="submit" value="Author" name="btnAction">   
     </form>
 
 
     <!-- <button $filtered = "category">Category</button> -->
 
     <form action="homepage.php" method="post">
-   <input type="submit" value="Category" name="btnAction">  
+        <input type="submit" value="Category" name="btnAction">  
     </form>
 
 
     <!-- <button $filtered = "time">Time to Prepare</button> -->
 
     <form action="homepage.php" method="post">
-   <input type="submit" value="Time" name="btnAction">
+        <input type="submit" value="Time" name="btnAction">
     </form>
 
-
+    
   </div>
+</link>
 </div>
 
 
