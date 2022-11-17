@@ -27,8 +27,8 @@ if($_SERVER['REQUEST_METHOD']=='POST')
 
     else if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Delete")
     { 
-    deleteFriend($_POST['recipe_to_delete']);
-    $list_of_my_recipes = getAllMyRecipes();
+    deleteRecipe($_SESSION['id'], $_POST['recipe_to_delete']);
+    $list_of_my_recipes = getAllMyRecipes($_SESSION["id"]);
     }
 
     else if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Update")
@@ -146,7 +146,7 @@ if($_SERVER['REQUEST_METHOD']=='POST')
                             <a href="#" class="btn btn-primary">More Details</a> <!-- change the ref to be the recipe's page-->
                             <form action = "recipespage.php" method="post">
                                 <input type="submit" value="Delete" name="btnAction" class="btn btn-danger" />
-                                <input type="hidden" name="recipe_to_delete" value="<?php echo $recipes['name']?>" />
+                                <input type="hidden" name="recipe_to_delete" value="<?php echo $recipe_info['recipeID']?>" />
                                 <input type="submit" value="Update" name="btnAction" class="btn btn-primary" />
                                 <input type="hidden" name="recipe_to_update" value="<?php echo $recipe_info['recipeID']?>" />
                             </form>
