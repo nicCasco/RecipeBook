@@ -141,8 +141,10 @@ function deleteRecipe($userID, $recipeID)
     global $db;
     $query = "DELETE FROM recipes WHERE userID=:userID AND recipeID=:recipeID";
     try{
-        $statement = $db->prepary($query);
+        $statement = $db->prepare($query);
+        echo $userID;
         $statement->bindValue(':userID', $userID);
+        echo $recipeID;
         $statement->bindValue(':recipeID', $recipeID);
         $statement->execute();
         $statement->closeCursor();
