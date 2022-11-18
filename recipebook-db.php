@@ -5,7 +5,7 @@
 function getAllMyRecipes($userID)
 {
     global $db;
-    $query = "SELECT * FROM recipes WHERE userID=:userID";
+    $query = "SELECT * FROM userSubmittedRecipes WHERE userID=:userID";
     //figure out how to get userID from login
     try{
         $statement=$db->prepare($query);
@@ -22,15 +22,18 @@ function getAllMyRecipes($userID)
     
 };
 
-function updateRecipe($userID, $recipeID, $category) {
+function updateRecipe($userID, $recipeID, $author, $title, $category, $time) {
 
 	global $db;
-	$query = "UPDATE recipe SET category=:category WHERE userID=:userID AND recipeID=:recipeID";
+	$query = "UPDATE recipes SET author=:author, title=:title, category=:category, time=:time WHERE userID=:userID AND recipeID=:recipeID";
     try{
         $statement = $db->prepare($query);
         $statement->bindValue(':userID', $userID);
         $statement->bindValue(':recipeID', $recipeID);
+        $statement->bindValue(':author', $author);
+        $statement->bindValue(':title', $title);
         $statement->bindValue(':category', $category);
+        $statement->bindValue(':time', $time);
         $statement->execute();
         $statement->closeCursor();
     }
@@ -71,12 +74,26 @@ function getRecipeForUpdate($userID, $recipeID)
     return $result;
 }
 
+function getRecipeInstructionsForUpdate($userID, $recipeID)
+{
+    global $db;
+    $query = "SELECT * FROM recipeInstructions WHERE userID = :userID AND recipeID = :recipeID";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':userID', $userID);
+    $statement->bindValue(':recipeID', $recipeID);
+    $statement->execute();
+    $result = $statement->fetch();
+    $statement->closeCursor();
+    return $result;
+}
+
 // //create hidden input. type hidden input for user id and recipe id that will not be displayed on the id. 
 // //function that will add a recipe 
-function addRecipe($userID, $author, $title, $category, $time)
+function addRecipe($userID, $author, $title, $category, $time, $instructions)
 {
     global $db;
     $query = "INSERT INTO recipes VALUES(:userID, :recipeID, :author, :title, :category, :time, :image, :video)";
+    
     $queryCount = "SELECT COUNT(*) from recipes";
     $queryCount = $db->prepare($queryCount);
     $queryCount->execute();
@@ -102,36 +119,49 @@ function addRecipe($userID, $author, $title, $category, $time)
     {
         echo $e->getMessage();
     }
-    /*from the front end, I will be given an array of ingredients to traverse
-    Traverse through ingredients and grab individual ingredients to submit querys for each.
-    */
-//    foreach ( $ingredientsList as $ingredient):
-//         $addIngredients = "INSERT INTO recipeIngredients VALUES ( :userID, $queryCount+1, $ingredient)";
+   
+//    foreach ( $instructionsList as $ingredient):
+//         $addIngredients = "INSERT INTO recipeIngredients VALUES ( :userID, :recipeID, :ingredients)";
 //         try{
-//             $statement = $dv->prepare($addIngredients);
+//             $statement = $db->prepare($addIngredients);
 //             $statement->bindValue(':userID', $userID);
-//             $statement->bindValue($queryCount + 1, $recipeID);
+//             $statement->bindValue($count, $recipeID);
 //             $statement->bindValue($ingredient, $ingredients);
 //         }
 //         catch (Exception $e)
 //         {
 //             echo $e->getMessage();
 //         }
-
-//         $addInstructions = "INSERT INTO recipeInstructions VALUES ( :userID, $queryCount+1, :instructions)";
-//         try{
-//             $statement = $dv->prepare($addInstructions);
-//             $statement->bindValue(':userID', $userID);
-//             $statement->bindValue($queryCount + 1, $recipeID);
-//             $statement->bindValue(':instructions', $instructions);
-//         }
+//     endforeach;
+        $addInstructions = "INSERT INTO recipeInstructions VALUES ( :userID, :recipeID, :instructions)";
+        try{
+            $statement = $db->prepare($addInstructions);
+            $statement->bindValue(':userID', $userID);
+            $statement->bindValue(':recipeID', $count);
+            $statement->bindValue(':instructions', $instructions);
+            $statement->execute();
+            $statement->closeCursor();
+        }
     
 
-//         catch (Exception $e)
-//         {
-//             echo $e->getMessage();
-//         }
-//     endforeach;
+        catch (Exception $e)
+        {
+            echo $e->getMessage();
+        }
+
+    $userSubmitted = "INSERT INTO userSubmittedRecipes VALUES (:userID, :submittedRecipe, :recipeID)";
+    try{
+        $statement = $db->prepare($userSubmitted);
+        $statement -> bindValue(':userID', $userID);
+        $statement -> bindValue(':submittedRecipe', $title);
+        $statement -> bindValue(':recipeID', $count);
+        $statement -> execute();
+        $statement -> closeCursor();
+    }     
+    catch (Exception $e)
+    {
+        echo $e->getMessage();
+    }
 }
 
 // //function that will delete a selected recipe
