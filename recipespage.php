@@ -15,6 +15,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 
     $list_of_my_recipes = getAllMyRecipes($_SESSION["id"]);
     $recipe_to_update = NULL;
+    $instructions_update = NULL;
 ?>
 
 <?php
@@ -22,25 +23,30 @@ if($_SERVER['REQUEST_METHOD']=='POST')
 {
     if(!empty($_POST['btnAction']) && $_POST['btnAction'] =='Add')
     {
-        addRecipe($_SESSION['id'], $_POST['author'], $_POST['title'], $_POST['category'], $_POST['time']);
+        addRecipe($_SESSION['id'], $_POST['author'], $_POST['title'], $_POST['category'], $_POST['time'], $_POST['instructions']);
+        $list_of_my_recipes = getAllMyRecipes($_SESSION["id"]);
     }
 
     else if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Delete")
     { 
-    deleteRecipe($_SESSION['id'], $_POST['recipe_to_delete']);
-    $list_of_my_recipes = getAllMyRecipes($_SESSION["id"]);
+
+        deleteRecipe($_SESSION['id'], $_POST['recipe_to_delete']);
+         $list_of_my_recipes = getAllMyRecipes($_SESSION["id"]);
+
     }
 
     else if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Update")
     {
         $recipe_to_update = getRecipeForUpdate($_SESSION['id'], $_POST['recipe_to_update']);
-        echo $recipe_to_update['title'];
+        $instructions_update = getRecipeInstructionsForUpdate($_SESSION['id'], $_POST['recipe_to_update']); 
+        
     }
 
     if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Confirm Update")
     {
         echo "this shit goes through";
-        updateRecipe($_SESSION['id'], $recipe_to_update['recipeID'], $_POST['category']);
+        updateRecipe($_SESSION['id'], $_POST['recipe_to_update'], $_POST['author'], $_POST['title'],
+            $_POST['category'], $_POST['time']);
         $list_of_my_recipes = getAllMyRecipes($_SESSION["id"]);
     }
 }
@@ -90,7 +96,7 @@ if($_SERVER['REQUEST_METHOD']=='POST')
             />
             
         </div>
-        /*Change so that it is chosen from a drop down list */
+       
         <div class="row">
             Category:
             <input type="text" class="form-control" name="category" required
@@ -105,12 +111,18 @@ if($_SERVER['REQUEST_METHOD']=='POST')
             />
             
         </div>
-        <!-- <div class="row">
+         <div class="row">
         Instructions:
-            <input type="text" class="form-control" name="instructions" required/>
+            <input type="text" class="form-control" name="instructions" required
+            value="<?php if ($instructions_update!=null) echo $instructions_update['instructions'] ?>"/>
             
         </div>
-        /*change to be able to upload image */
+        <!-- <div class="row">
+        Ingredients:
+            <input type="text" class="form-control" name="ingredients" required/>
+            
+        </div> -->
+        <!--/*change to be able to upload image */
         <div class="row">
             Image
             <input type="text" class="form-control" name="image" required/>
@@ -125,6 +137,7 @@ if($_SERVER['REQUEST_METHOD']=='POST')
         <div>
             <input type="submit" value="Add" name="btnAction" class="btn btn-dark" 
                 title="Insert a recipe" />
+            <input type="hidden" name="recipe_to_update" value="<?php echo $recipe_to_update['recipeID'];?>" />
             <input type="submit" value="Confirm Update" name="btnAction" class="btn btn-primary"
                 title="Update a recipe" />                        
         </div>  
@@ -136,19 +149,17 @@ if($_SERVER['REQUEST_METHOD']=='POST')
         <!-- /* Display contents of recipes here */ -->
             <div class='col-sm-3'>
                 <tr>
-                    <!-- I stole the contents of recipecard.php bc I didn't know how to bring the content from there to here lol
+                    <!-- I stole the contents of recipecard.php bc I didn't know how  to bring the content from there to here lol
                             if you know how to do that feel free to change this. -->
                     <div class="card" style="width: 18rem;">
                         <img class="card-img-top" src="..." alt="Card image cap">
                         <div class="card-body">
-                            <h5 class="card-title"><?php echo $recipe_info['title']?></h5>
-                            <p class="card-text">That shit is bussin', respectfully</p>
-                            <a href="#" class="btn btn-primary">More Details</a> <!-- change the ref to be the recipe's page-->
+                            <h5 class="card-title"><?php echo $recipe_info['submittedRecipe']?></h5>
                             <form action = "recipespage.php" method="post">
                                 <input type="submit" value="Delete" name="btnAction" class="btn btn-danger" />
                                 <input type="hidden" name="recipe_to_delete" value="<?php echo $recipe_info['recipeID']?>" />
                                 <input type="submit" value="Update" name="btnAction" class="btn btn-primary" />
-                                <input type="hidden" name="recipe_to_update" value="<?php echo $recipe_info['recipeID']?>" />
+                                <input type="hidden" name="recipe_to_update" value="<?php echo $recipe_info['recipeID'];?>" />
                             </form>
                         </div>
                     </div>
