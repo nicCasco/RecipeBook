@@ -94,7 +94,7 @@ function addRecipe($userID, $author, $title, $category, $time, $instructions)
     global $db;
     $query = "INSERT INTO recipes VALUES(:userID, :recipeID, :author, :title, :category, :time, :image, :video)";
     
-    $queryCount = "SELECT COUNT(*) from recipes";
+    $queryCount = "SELECT MAX(recipeID) from recipes";
     $queryCount = $db->prepare($queryCount);
     $queryCount->execute();
     $returnQueryCount = $queryCount->fetch();
@@ -169,11 +169,33 @@ function addRecipe($userID, $author, $title, $category, $time, $instructions)
 function deleteRecipe($userID, $recipeID)
 {
     global $db;
-    $query = "DELETE FROM recipes WHERE userID=:userID AND recipeID=:recipeID";
+
+    $query1 = "DELETE FROM recipeIngredients WHERE userID=:userID AND recipeID=:recipeID";
+    $query2 = "DELETE FROM recipeInstructions WHERE userID=:userID AND recipeID=:recipeID";
+    $query3 = "DELETE FROM recipes WHERE userID=:userID AND recipeID=:recipeID";
+    $query4 = "DELETE FROM userSubmittedRecipes WHERE userID=:userID AND recipeID=:recipeID";
+
     try{
-        $statement = $db->prepare($query);
+        $statement = $db->prepare($query1);
         $statement->bindValue(':userID', $userID);
-        echo $recipeID;
+        $statement->bindValue(':recipeID', $recipeID);
+        $statement->execute();
+        $statement->closeCursor();
+
+        $statement = $db->prepare($query2);
+        $statement->bindValue(':userID', $userID);
+        $statement->bindValue(':recipeID', $recipeID);
+        $statement->execute();
+        $statement->closeCursor();
+
+        $statement = $db->prepare($query3);
+        $statement->bindValue(':userID', $userID);
+        $statement->bindValue(':recipeID', $recipeID);
+        $statement->execute();
+        $statement->closeCursor();
+
+        $statement = $db->prepare($query4);
+        $statement->bindValue(':userID', $userID);
         $statement->bindValue(':recipeID', $recipeID);
         $statement->execute();
         $statement->closeCursor();
