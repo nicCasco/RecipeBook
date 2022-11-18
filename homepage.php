@@ -1,6 +1,6 @@
 <?php
-    require("context-db.php"); # UNCOMMENT THIS
-    require("recipebook-db.php"); # UNCOMMENT THIS
+    require("context-db.php"); 
+    require("recipebook-db.php");
     $list_of_recipes = getAllRecipes();
 ?>
 
@@ -30,9 +30,27 @@
 </head>
 
 
+<?php
+if ($_SERVER['REQUEST_METHOD'] == 'POST')
+{
+  if (!empty($_POST['btnAction']) && (($_POST['btnAction'] =='Title') || ($_POST['btnAction'] =='Author') || ($_POST['btnAction'] =='Category') || ($_POST['btnAction'] =='Time')))
+  {
+      $list_of_recipes = filterDaRecipes($_POST['btnAction'], $list_of_recipes);
+  }
+
+  else{
+    $list_of_recipes = getAllRecipes();
+  }
+  
+}
+?>
 
 
 <body>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 <center>
 <p></p>
@@ -40,8 +58,83 @@
 </center>
 <p></p>
 
+
+
+<!-- SOURCE dropdown: https://blog.hubspot.com/website/html-dropdown -->
+
+<div class="dropdown" method="post">
+<link rel="stylesheet" href="dropped.css">
+    <button class="dropbtn">Filter</button>
+  
+  <div class="dropdown-content">
+
+
+
+    <!-- <button  >Title</button> -->
+
+    <form action="homepage.php" method="post" >
+        <input type="submit" value="Title" name="btnAction"> 
+    </form>
+
+
+
+    <!-- <button $filtered = "author">Author</button> -->
+
+    <form action="homepage.php" method="post">
+        <input type="submit" value="Author" name="btnAction">   
+    </form>
+
+
+    <!-- <button $filtered = "category">Category</button> -->
+
+    <form action="homepage.php" method="post">
+        <input type="submit" value="Category" name="btnAction">  
+    </form>
+
+
+    <!-- <button $filtered = "time">Time to Prepare</button> -->
+
+    <form action="homepage.php" method="post">
+        <input type="submit" value="Time" name="btnAction">
+    </form>
+
+    
+  </div>
+</link>
+</div>
+
+
+
+<?php
+function filterDaRecipes( $filtered, $list_of_recipes )
+{
+    //$sorted_list = "SELECT id, firstname, lastname FROM MyGuests ORDER BY lastname";
+    //$sorted_list = "SELECT ( recipe_id, author, title, category, time, image ) FROM recipes ORDER BY title";
+    global $db;
+    if ($filtered == null) {
+        $query = "SELECT * FROM recipes";
+    }
+    else{
+        $query = "SELECT * FROM recipes ORDER BY $filtered";
+    }
+    
+    $statement = $db->prepare($query);
+    $statement->execute();
+    $list_of_recipes = $statement->fetchAll();
+    $statement->closeCursor();
+    return $list_of_recipes;
+
+} 
+?>
+
+
+
 <div class='row'>
-        <?php foreach ($list_of_recipes as $recipe_info): ?>
+    
+    
+        <?php 
+        
+        foreach ($list_of_recipes as $recipe_info):  ?>
         <!-- /* Display contents of recipes here */ -->
             <div class='col-sm-3'>
                 <tr>
