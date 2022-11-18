@@ -29,8 +29,8 @@ if($_SERVER['REQUEST_METHOD']=='POST')
 
     else if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Delete")
     { 
-        deleteFriend($_POST['recipe_to_delete']);
-        $list_of_my_recipes = getAllMyRecipes();
+        deleteRecipe($_SESSION['id'], $_POST['recipe_to_delete']);
+        $list_of_my_recipes = getAllMyRecipes($_SESSION['id']);
     deleteRecipe($_SESSION['id'], $_POST['recipe_to_delete']);
     $list_of_my_recipes = getAllMyRecipes($_SESSION["id"]);
     }
