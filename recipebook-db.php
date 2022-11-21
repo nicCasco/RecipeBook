@@ -218,4 +218,71 @@ function getAllRecipes()
     $statement->closeCursor();
     return $result;
 }
+
+// function that takes in a UserID and returns all OTHER users in the system
+function getOtherUsers($userID)
+{
+    global $db;
+    $query = "SELECT * FROM users WHERE id<>:userID";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':userID', $userID);
+    $statement->execute();
+    $result = $statement->fetchAll();
+    $statement->closeCursor();
+    return $result;
+}
+
+function addFollowsFeature($userID, $follows)
+{
+    global $db;
+    $query = "INSERT INTO follows VALUES (:userId, :follows)";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':userId', $userID);
+    $statement->bindValue(':follows', $follows);
+    $statement->execute();
+    $statement->closeCursor();
+}
+
+function unfollowsFeature($userID, $follows)
+{
+    global $db;
+    $query ="DELETE FROM follows WHERE userId=:userId AND follows=:follows";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':userId', $userID);
+    $statement->bindValue(':follows', $follows);
+    $statement->execute();
+    $statement->closeCursor();
+}
+
+function likeRecipe($userID, $recipeID)
+{
+    global $db;
+    $queryRecipe = "SELECT title FROM recipes WHERE recipeID=:recipeID";
+    $statement=$db->prepare($queryRecipe);
+    $statement->bindValue(':recipeID', $recipeID);
+    $statement->execute();
+    $likedRecipe = $statement->fetch();
+    $statement->closeCursor();
+
+    $queryLike = "INSERT INTO userFavoriteRecipes VALUES (:userID, :favoriteRecipe, :recipeID)";
+    $statement=$db->prepare($queryLike);
+    $statement->bindValue(':userID', $userID);
+    $statement->bindValue(':favoriteRecipe', $likedRecipe[0]);
+    $statement->bindValue(':recipeID', $recipeID);
+    $statement->execute();
+    $statement->closeCursor();
+
+}
+
+function getLikeRecipes($userID)
+{
+    global $db;
+    $query = "SELECT favoriteRecipe FROM userFavoriteRecipes WHERE userID=:userID";
+    $statement=$db->prepare($query);
+    $statement->bindValue(':userID', $userID);
+    $statement->execute();
+    $result = $statement->fetchAll();
+    $statement->closeCursor();
+    return $result;
+}
 ?>

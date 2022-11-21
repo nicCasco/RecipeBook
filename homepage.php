@@ -2,6 +2,18 @@
     require("context-db.php"); 
     require("recipebook-db.php");
     $list_of_recipes = getAllRecipes();
+    $recipe_to_like = NULL;
+?>
+
+<?php
+// Initialize the session
+session_start();
+ 
+// Check if the user is logged in, if not then redirect him to login page
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: login.php");
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -37,7 +49,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   {
       $list_of_recipes = filterDaRecipes($_POST['btnAction'], $list_of_recipes);
   }
-
+  else if(!empty($_POST['btnAction'] && $_POST['btnAction']=='Like'))
+  {
+    likeRecipe($_SESSION['id'], $_POST['recipe_to_like']);
+  }
   else{
     $list_of_recipes = getAllRecipes();
   }
@@ -145,6 +160,15 @@ function filterDaRecipes( $filtered, $list_of_recipes )
                         <div class="card-body">
                             <h5 class="card-title"><?php echo $recipe_info['title']?></h5>
                             <p class="card-text"><?php echo $recipe_info['author']; ?></p>
+                        </div>
+                        <div>
+                        <form action="homepage.php" method="post">
+                            <input type="submit" value="Like" name="btnAction" class="btn btn-primary" 
+                                title="Click to like recipe" />
+                            <input type="hidden" name="recipe_to_like" 
+                                value="<?php echo $recipe_info['recipeID']; ?>"
+                            />
+                        </form>
                         </div>
                     </div>
                     <p></p>
