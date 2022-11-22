@@ -13,9 +13,11 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     require("context-db.php");
     require("recipebook-db.php");
 
+
     $list_of_my_recipes = getAllMyRecipes($_SESSION["id"]);
     $recipe_to_update = NULL;
     $instructions_update = NULL;
+    $ingredients_update = NULL;
 ?>
 
 <?php
@@ -23,7 +25,7 @@ if($_SERVER['REQUEST_METHOD']=='POST')
 {
     if(!empty($_POST['btnAction']) && $_POST['btnAction'] =='Add')
     {
-        addRecipe($_SESSION['id'], $_POST['author'], $_POST['title'], $_POST['category'], $_POST['time'], $_POST['instructions']);
+        addRecipe($_SESSION['id'], $_POST['author'], $_POST['title'], $_POST['category'], $_POST['time'], $_POST['instructions'], $_POST['ingredients']);
         $list_of_my_recipes = getAllMyRecipes($_SESSION["id"]);
     }
 
@@ -37,6 +39,7 @@ if($_SERVER['REQUEST_METHOD']=='POST')
     {
         $recipe_to_update = getRecipeForUpdate($_SESSION['id'], $_POST['recipe_to_update']);
         $instructions_update = getRecipeInstructionsForUpdate($_SESSION['id'], $_POST['recipe_to_update']); 
+        $ingredients_update = getRecipeIngredientsForUpdate($_SESSION['id'], $_POST['recipe_to_update']);
         
     }
 
@@ -115,11 +118,12 @@ if($_SERVER['REQUEST_METHOD']=='POST')
             value="<?php if ($instructions_update!=null) echo $instructions_update['instructions'] ?>"/>
             
         </div>
-        <!-- <div class="row">
+        <div class="row">
         Ingredients:
-            <input type="text" class="form-control" name="ingredients" required/>
+            <input type="text" class="form-control" name="ingredients" required
+            value="<?php if ($ingredients_update!=null) echo $ingredients_update['ingredients'] ?>"/>
             
-        </div> -->
+        </div> 
         <!--/*change to be able to upload image */
         <div class="row">
             Image
