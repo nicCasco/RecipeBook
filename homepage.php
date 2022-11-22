@@ -3,6 +3,7 @@
     require("recipebook-db.php");
     $list_of_recipes = getAllRecipes();
     $recipe_to_like = NULL;
+    $recipe_to_update = NULL;
 ?>
 
 <?php
@@ -144,6 +145,7 @@ function filterDaRecipes( $filtered, $list_of_recipes )
 
 
 
+
 <div class='row'>
     
     
@@ -160,6 +162,9 @@ function filterDaRecipes( $filtered, $list_of_recipes )
                         <div class="card-body">
                             <h5 class="card-title"><?php echo $recipe_info['title']?></h5>
                             <p class="card-text"><?php echo $recipe_info['author']; ?></p>
+
+                            
+                            
                         </div>
                         <div>
                         <form action="homepage.php" method="post">
@@ -169,6 +174,45 @@ function filterDaRecipes( $filtered, $list_of_recipes )
                                 value="<?php echo $recipe_info['recipeID']; ?>"
                             />
                         </form>
+                        
+
+                        <form method="" action="">
+                            <input type="submit" name="submit" value="More Info">
+                            
+                        </form>
+                        
+                        
+                        <?php 
+                            if ( getRecipeInstructions( $recipe_info['recipeID'])!= null ){
+                                ?>
+                                <p>INSTRUCTIONS</p>
+                                <?php $instructions = getRecipeInstructions( $recipe_info['recipeID']); ?>
+                                <?php foreach($instructions as $one_instruct) ?>
+                                    <?php echo $one_instruct?>
+                                <?php
+                            }
+                            ?>
+
+                                </br>
+                                </br> 
+
+                            <?php
+                            if ( getRecipeIngredients( $recipe_info['recipeID'])!= null ){
+                            ?>
+                                <p>INGREDIENTS</p>
+                                <?php $ingredients = getRecipeIngredients( $recipe_info['recipeID']); ?>
+                                <?php foreach($ingredients as $one_ingred) ?>
+                                <?php echo $one_ingred?>
+
+                                <?php
+                            }
+                        ?>
+
+                        
+                        
+                        
+
+
                         </div>
                     </div>
                     <p></p>
