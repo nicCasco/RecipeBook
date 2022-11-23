@@ -1,6 +1,18 @@
 <?php
+// Initialize the session
+session_start();
+
+// Check if the user is logged in, if not then redirect him to login page
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: login.php");
+    exit;
+}
+?>
+
+<?php
     require("context-db.php"); 
     require("recipebook-db.php");
+    require("evaluations-db.php");
     $list_of_recipes = getAllRecipes();
 ?>
 
@@ -37,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   {
       $list_of_recipes = filterDaRecipes($_POST['btnAction'], $list_of_recipes);
   }
-
+  
   else{
     $list_of_recipes = getAllRecipes();
   }
@@ -127,24 +139,47 @@ function filterDaRecipes( $filtered, $list_of_recipes )
 } 
 ?>
 
+<?php 
+function getRecipeSession($recipe_info){
+    $_SESSION['recipeID'] = $recipe_info['recipeID'];
+    return $_SESSION['recipeID'];
+}
+?>
+
 
 
 <div class='row'>
     
     
         <?php 
-        
         foreach ($list_of_recipes as $recipe_info):  ?>
         <!-- /* Display contents of recipes here */ -->
             <div class='col-sm-3'>
                 <tr>
-                    <!-- I stole the contents of recipecard.php bc I didn't know how to bring the content from there to here lol
-                            if you know how to do that feel free to change this. -->
                     <div class="card" style="width: 18rem;">
                         <img class="card-img-top" src="..." alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title"><?php echo $recipe_info['title']?></h5>
                             <p class="card-text"><?php echo $recipe_info['author']; ?></p>
+                            <p class="card-text"> Rating:
+                                <?php $list_of_ratings = getEvalRating($recipe_info['recipeID']); ?>
+                                <?php foreach($list_of_ratings as $ratings) ?>
+                                <?php echo $ratings['AVG(rating)'] ?>
+                                </p>
+                            <p class="card-text"> Difficulty:
+                                <?php $list_of_diffs = getEvalDifficulty($recipe_info['recipeID']); ?>
+                                <?php foreach($list_of_diffs as $diffs) ?>
+                                <?php echo $diffs['AVG(difficulty)'] ?>
+                                </p>
+                                <form action="evaluations.php" method="get">
+                                    <input type="hidden" name="recipeID" value="<?php echo $recipe_info['recipeID'];?>" />
+                                    <input type="hidden" name="title" value="<?php echo $recipe_info['title'];?>" />
+                                    <button>Evaluations</button>
+                                </form>
+                            <a href="evaluations.php?recipeID=<?php echo $recipe_info['recipeID']?>&title=<?php echo $recipe_info['title']?>" class="btn btn-primary">Evaluation</a>
+                            <?php //$_SESSION[$recipe_info['recipeID']] = $recipe_info['title'];?>
+                            <?php $recipe_str = strval($recipe_info['recipeID']);
+                            $_SESSION["h".$recipe_str] = $recipe_info['title'];?>
                         </div>
                     </div>
                     <p></p>
