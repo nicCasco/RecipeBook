@@ -139,14 +139,6 @@ function filterDaRecipes( $filtered, $list_of_recipes )
 } 
 ?>
 
-<?php 
-function getRecipeSession($recipe_info){
-    $_SESSION['recipeID'] = $recipe_info['recipeID'];
-    return $_SESSION['recipeID'];
-}
-?>
-
-
 
 <div class='row'>
     
@@ -171,15 +163,7 @@ function getRecipeSession($recipe_info){
                                 <?php foreach($list_of_diffs as $diffs) ?>
                                 <?php echo $diffs['AVG(difficulty)'] ?>
                                 </p>
-                                <form action="evaluations.php" method="get">
-                                    <input type="hidden" name="recipeID" value="<?php echo $recipe_info['recipeID'];?>" />
-                                    <input type="hidden" name="title" value="<?php echo $recipe_info['title'];?>" />
-                                    <button>Evaluations</button>
-                                </form>
-                            <a href="evaluations.php?recipeID=<?php echo $recipe_info['recipeID']?>&title=<?php echo $recipe_info['title']?>" class="btn btn-primary">Evaluation</a>
-                            <?php //$_SESSION[$recipe_info['recipeID']] = $recipe_info['title'];?>
-                            <?php $recipe_str = strval($recipe_info['recipeID']);
-                            $_SESSION["h".$recipe_str] = $recipe_info['title'];?>
+                            <a href="evaluations.php?recipeID=<?php echo $recipe_info['recipeID']?>&title=<?php echo $recipe_info['title']?>&ownerID=<?php echo $recipe_info['userID']?>" class="btn btn-primary">Evaluation</a>
                         </div>
                     </div>
                     <p></p>

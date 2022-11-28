@@ -52,7 +52,9 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                         <img class="card-img-top" src="..." alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title"> Recipe:
-                                <?php $list_of_recipes = getRecipes($entry_info['submittedEvaluations']); ?>
+                                <?php $list_of_IDs = getRecipeID($entry_info['submittedEvaluations'])?>
+                                <?php foreach ($list_of_IDs as $ID)?>
+                                <?php $list_of_recipes = getRecipes($ID['recipeID']); ?>
                                 <?php foreach($list_of_recipes as $recipe) ?>
                                 <?php echo $recipe['title'] ?>
                                 </h5>

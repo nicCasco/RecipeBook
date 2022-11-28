@@ -17,6 +17,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     $recipeID = $_GET['recipeID'];
 
     $title = $_GET['title'];
+    $ownerID = $_GET['ownerID'];
 ?>
 
 <?php
@@ -24,7 +25,10 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     {
         if(!empty($_POST['btnAction']) && $_POST['btnAction'] == 'Add Evaluation')
         {
-            addEval($_SESSION['id'], $_POST['recipeID'], $_POST['rating'], $_POST['difficulty']);
+            addEval($_POST['ownerID'], $_POST['recipeID'], $_POST['rating'], $_POST['difficulty']);
+            $evalID = getEval();
+            addMyEval($_SESSION['id'], $evalID);
+            //header("location: homepage.php");
             //echo "Evaluation has been submitted";
         }
     }
@@ -55,29 +59,31 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     ?>
 </div>
 <div>
-    <h1>Evaluation
+    <h1>Evaluation for
     <?php
         //var_dump($_SESSION);
           //echo $_SESSION["h".$recipeID]
           echo $title;
-          echo $recipeID;?>
+          //echo $recipeID;
+          //echo $ownerID;?>
     </h1>
 
     <form name="addEvaluation" action="evaluations.php" method="post">
         <div class ="row">
-            Rating:
+            Rating (number between 1 and 5 please):
             <input type="rating" class="form-control" name="rating" required/>
         </div>
         <div class ="row">
-            Difficulty:
+            Difficulty (number between 1 and 5 please):
             <input type="difficulty" class="form-control" name="difficulty" required/>
         </div>
         <div >
-        <form action="evaluations.php" method="get">
+        <form action="evaluations.php" method="post">
             <input type="submit" value="Add Evaluation" name="btnAction" class="btn btn-dark" />
             
             <input type="hidden" name="recipeID" value="<?php echo $recipeID;?>" />
             <input type="hidden" name="title" value="<?php echo $title;?>" />
+            <input type="hidden" name="ownerID" value="<?php echo $ownerID;?>" />
         </form>
         </div>
     </form>
