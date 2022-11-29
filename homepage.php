@@ -57,6 +57,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 }
 ?>
 
+<?php 
+    function totalRecipes(){
+        global $db;
+        $query = "CALL countRecipes(@p1)";
+        
+        try{
+            $statement = $db->prepare($query);
+            $statement->execute();
+            $row = $db->query("SELECT @p1 AS total_recipes")->fetch();
+            return $row;
+        }
+        catch (Exception $e)
+        {
+            echo $e->getMessage();
+        }
+    }
+?>
+
 
 <body>
 
@@ -67,7 +85,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 <center>
 <p></p>
 <h1> Homepage </h1>
+<p>Total Recipes: <?php $total_r = totalRecipes(); 
+    echo $total_r['total_recipes'];?></p>
 </center>
+
 <p></p>
 
 
@@ -114,6 +135,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   </div>
 </link>
 </div>
+
+
 
 
 
