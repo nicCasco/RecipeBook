@@ -55,7 +55,9 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 </div>
 <link rel="stylesheet" href="margin.css">
 <div>
+    <center>
     <h1> My Journal </h1>
+    </center>
     <p>&nbsp</p>
     <form name="addJournalEntryForm" action="journalpage.php" method="post">
         <div class ="row">
