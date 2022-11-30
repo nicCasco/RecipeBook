@@ -64,6 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
 <body>
 
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
@@ -73,15 +74,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 <h1> Homepage </h1>
 </center>
 <p></p>
+<link rel="stylesheet" href="margin.css">
 
 
 
 <!-- SOURCE dropdown: https://blog.hubspot.com/website/html-dropdown -->
 
+<br>
+
 <div class="dropdown" method="post">
 <link rel="stylesheet" href="dropped.css">
-    <button class="dropbtn">Filter</button>
-  
+
+        <button class="dropbtn">Filter</button>
+
   <div class="dropdown-content">
 
 
@@ -116,10 +121,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
     
   </div>
+  
 </link>
 </div>
 
 
+<p>&nbsp</p>
 
 <?php
 function filterDaRecipes( $filtered, $list_of_recipes )
@@ -145,20 +152,25 @@ function filterDaRecipes( $filtered, $list_of_recipes )
 
 
 
-
 <div class='row'>
     
-    
-        <?php 
         
+   
+        
+        <?php 
         foreach ($list_of_recipes as $recipe_info):  ?>
         <!-- /* Display contents of recipes here */ -->
+        
             <div class='col-sm-3'>
                 <tr>
+                
+                
                     <!-- I stole the contents of recipecard.php bc I didn't know how to bring the content from there to here lol
                             if you know how to do that feel free to change this. -->
                     <div class="card" style="width: 18rem;">
+                    <!--
                         <img class="card-img-top" src="..." alt="Card image cap">
+        -->
                         <div class="card-body">
                             <h5 class="card-title"><?php echo $recipe_info['title']?></h5>
                             <p class="card-text"><?php echo $recipe_info['author']; ?></p>
@@ -175,11 +187,12 @@ function filterDaRecipes( $filtered, $list_of_recipes )
                             />
                         </form>
                         
-
+                        <!-- THIS IS THE UNIMPLEMENTED MORE INFO BUTTON 
                         <form method="" action="">
                             <input type="submit" name="submit" value="More Info">
                             
                         </form>
+                        -->
                         
                         
                         <?php 
@@ -207,21 +220,20 @@ function filterDaRecipes( $filtered, $list_of_recipes )
                                 <?php
                             }
                         ?>
-
-                        
-                        
-                        
-
-
                         </div>
                     </div>
                     <p></p>
+                    
                 </tr>
             </div>
+            
         <?php endforeach; ?>
+        
+        
     </div>
 
 </body>
+                        
 
 
 </html>

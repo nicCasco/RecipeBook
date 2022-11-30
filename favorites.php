@@ -31,12 +31,15 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
  
 </head>
 
-
 <div>
     <?php
         include("navbar.html")
     ?>
 </div>
+
+
+<div>
+<link rel="stylesheet" href="margin.css">
 
 <div class="row justify-content-center">
 <table class="w3-table w3-bordered w3-card-4 center" style="width:70%">
@@ -71,4 +74,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
   </tr>
 <?php endforeach; ?>
 </table>
+</div>
+
+
 </div>
