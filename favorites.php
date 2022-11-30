@@ -40,7 +40,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 
 <div>
 <link rel="stylesheet" href="margin.css">
-
+<p>&nbsp</p>
 <div class="row justify-content-center">
 <table class="w3-table w3-bordered w3-card-4 center" style="width:70%">
   <thead>
@@ -53,7 +53,9 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
   </thead>
 <?php foreach ($list_of_favorites as $favorites_info): ?>
   <tr>
-     <td><?php echo $favorites_info["favoriteRecipe"]; ?></td>
+     <td>
+     <p></p>
+      <?php echo $favorites_info["favoriteRecipe"]; ?></td>
      <!-- <td><?php echo $friend_info['major']; ?></td> -->
      <!-- <td><?php echo $friend_info['year']; ?></td> -->
      <!-- <td>
@@ -71,7 +73,9 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         <input type="hidden" name="friend_to_unfollow" value="<?php echo $friend_info["id"]?>" />
       </form>
      </td> -->
+     
   </tr>
+  
 <?php endforeach; ?>
 </table>
 </div>

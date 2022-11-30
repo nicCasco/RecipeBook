@@ -55,14 +55,17 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 <body>
 
 <div>
-<link rel="stylesheet" href="margin.css">
 
     <?php
         include("navbar.html")
     ?>
 </div>
 <div>
+<link rel="stylesheet" href="margin.css">
+<p>&nbsp</p>
+<center>
     <h1>Evaluation for
+    
     <?php
         //var_dump($_SESSION);
           //echo $_SESSION["h".$recipeID]
@@ -70,17 +73,21 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
           //echo $recipeID;
           //echo $ownerID;?>
     </h1>
+</center>
+    <p>&nbsp</p>
 
     <form name="addEvaluation" action="evaluations.php" method="post">
         <div class ="row">
-            Rating (number between 1 and 5 please):
+            Rating (1 = Bad, 3 = Ok, 5 = Amazing):
             <input type="rating" class="form-control" name="rating" required/>
         </div>
+        <p></p>
         <div class ="row">
-            Difficulty (number between 1 and 5 please):
+            Difficulty (1 = Beginner, 3 = Intermediate, 5 = Expert):
             <input type="difficulty" class="form-control" name="difficulty" required/>
         </div>
         <div >
+        <p></p>
         <form action="evaluations.php" method="post">
             <input type="submit" value="Add Evaluation" name="btnAction" class="btn btn-dark" />
             
