@@ -36,11 +36,14 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 
 <body>
 <div>
+
     <?php
         include("navbar.html")
     ?>
 </div>
 <div>
+<link rel="stylesheet" href="margin.css">
+
     <h1> My Evaluations </h1>
 
     <div class='row'>
@@ -49,7 +52,9 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             <div class='col-sm-3'>
                 <tr>
                     <div class="card" style="width: 18rem;">
+                    <!--
                         <img class="card-img-top" src="..." alt="Card image cap">
+        -->
                         <div class="card-body">
                             <h5 class="card-title"> Recipe:
                                 <?php $list_of_IDs = getRecipeID($entry_info['submittedEvaluations'])?>

@@ -55,6 +55,8 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 <body>
 
 <div>
+<link rel="stylesheet" href="margin.css">
+
     <?php
         include("navbar.html")
     ?>
