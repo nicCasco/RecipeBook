@@ -13,9 +13,11 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     require("context-db.php");
     require("recipebook-db.php");
 
+
     $list_of_my_recipes = getAllMyRecipes($_SESSION["id"]);
     $recipe_to_update = NULL;
     $instructions_update = NULL;
+    $ingredients_update = NULL;
 ?>
 
 <?php
@@ -23,7 +25,7 @@ if($_SERVER['REQUEST_METHOD']=='POST')
 {
     if(!empty($_POST['btnAction']) && $_POST['btnAction'] =='Add')
     {
-        addRecipe($_SESSION['id'], $_POST['author'], $_POST['title'], $_POST['category'], $_POST['time'], $_POST['instructions']);
+        addRecipe($_SESSION['id'], $_POST['author'], $_POST['title'], $_POST['category'], $_POST['time'], $_POST['instructions'], $_POST['ingredients']);
         $list_of_my_recipes = getAllMyRecipes($_SESSION["id"]);
     }
 
@@ -31,13 +33,13 @@ if($_SERVER['REQUEST_METHOD']=='POST')
     { 
         deleteRecipe($_SESSION['id'], $_POST['recipe_to_delete']);
         $list_of_my_recipes = getAllMyRecipes($_SESSION["id"]);
-
     }
 
     else if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Update")
     {
         $recipe_to_update = getRecipeForUpdate($_SESSION['id'], $_POST['recipe_to_update']);
         $instructions_update = getRecipeInstructionsForUpdate($_SESSION['id'], $_POST['recipe_to_update']); 
+        $ingredients_update = getRecipeIngredientsForUpdate($_SESSION['id'], $_POST['recipe_to_update']);
         
     }
 
@@ -71,22 +73,23 @@ if($_SERVER['REQUEST_METHOD']=='POST')
 </head>
 
 <body>
+
 <div>
     <?php
         include("navbar.html")
     ?>
 </div>
-
+<link rel="stylesheet" href="margin.css">
 <div>
     <center><h1> My Recipes </h1></center>
-
+    <p>&nbsp</p>
     <form name="addRecipeForm" action="recipespage.php" method="post">
         <div class="row">
             Author:
             <input type="text" class="form-control" name="author" required
                 value="<?php if ($recipe_to_update!=null) echo $recipe_to_update['author'] ?>"
             />
-
+            <p>&nbsp</p>
         </div>
         <div class="row">
             Title:
@@ -95,7 +98,7 @@ if($_SERVER['REQUEST_METHOD']=='POST')
             />
             
         </div>
-       
+        <p>&nbsp</p>
         <div class="row">
             Category:
             <input type="text" class="form-control" name="category" required
@@ -103,6 +106,7 @@ if($_SERVER['REQUEST_METHOD']=='POST')
             />
             
         </div>
+        <p>&nbsp</p>
         <div class="row">
         Time:
             <input type="text" class="form-control" name="time" required
@@ -110,17 +114,20 @@ if($_SERVER['REQUEST_METHOD']=='POST')
             />
             
         </div>
+        <p>&nbsp</p>
          <div class="row">
         Instructions:
             <input type="text" class="form-control" name="instructions" required
             value="<?php if ($instructions_update!=null) echo $instructions_update['instructions'] ?>"/>
             
         </div>
-        <!-- <div class="row">
+        <p>&nbsp</p>
+        <div class="row">
         Ingredients:
-            <input type="text" class="form-control" name="ingredients" required/>
+            <input type="text" class="form-control" name="ingredients" required
+            value="<?php if ($ingredients_update!=null) echo $ingredients_update['ingredients'] ?>"/>
             
-        </div> -->
+        </div> 
         <!--/*change to be able to upload image */
         <div class="row">
             Image
@@ -133,6 +140,7 @@ if($_SERVER['REQUEST_METHOD']=='POST')
             <input type="text" class="form-control" name="video" required/>
             
         </div> -->
+        <p>&nbsp</p>
         <div>
             <input type="submit" value="Add" name="btnAction" class="btn btn-dark" 
                 title="Insert a recipe" />
@@ -141,7 +149,7 @@ if($_SERVER['REQUEST_METHOD']=='POST')
                 title="Update a recipe" />                        
         </div>  
     </form>
-
+    <p>&nbsp</p>
     <!-- //the delete button is displayed next to every one of the recipes in my recipe -->
     <div class='row'>
         <?php foreach ($list_of_my_recipes as $recipe_info): ?>
@@ -151,7 +159,9 @@ if($_SERVER['REQUEST_METHOD']=='POST')
                     <!-- I stole the contents of recipecard.php bc I didn't know how  to bring the content from there to here lol
                             if you know how to do that feel free to change this. -->
                     <div class="card" style="width: 18rem;">
+                    <!--
                         <img class="card-img-top" src="..." alt="Card image cap">
+        -->
                         <div class="card-body">
                             <h5 class="card-title"><?php echo $recipe_info['submittedRecipe']?></h5>
                             <form action = "recipespage.php" method="post">

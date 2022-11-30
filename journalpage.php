@@ -47,29 +47,33 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 </head>
 
 <body>
+    
 <div>
     <?php
         include("navbar.html")
     ?>
 </div>
+<link rel="stylesheet" href="margin.css">
 <div>
     <h1> My Journal </h1>
-
+    <p>&nbsp</p>
     <form name="addJournalEntryForm" action="journalpage.php" method="post">
         <div class ="row">
             Date:
             <input type="date" class="form-control" name="journalDate" required/>
         </div>
+        <p>&nbsp</p>
         <div class ="row">
             Entry:
             <input type="text" class="form-control" name="journalEntry"/>
         </div>
+        <br>
         <div >
             <input type="submit" value="Add Journal" name="btnAction" class="btn btn-dark" 
                 title="Insert a journal entry" />
         </div>
     </form>
-
+    <p>&nbsp</p>
     <div class='row'>
         <?php foreach ($list_of_my_entries as $entry_info): ?>
         <!-- /* Display contents of recipes here */ -->
@@ -78,7 +82,9 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                     <!-- I stole the contents of recipecard.php bc I didn't know how  to bring the content from there to here lol
                             if you know how to do that feel free to change this. -->
                     <div class="card" style="width: 18rem;">
+                    <!--
                         <img class="card-img-top" src="..." alt="Card image cap">
+        -->
                         <div class="card-body">
                             <h5 class="card-title"><?php echo $entry_info['journalDate']?></h5>
                             <text><?php echo $entry_info['journalEntry']?></text>
