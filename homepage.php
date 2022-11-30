@@ -218,32 +218,20 @@ function filterDaRecipes( $filtered, $list_of_recipes )
                                 <?php echo $diffs['AVG(difficulty)'] ?>
                                 </p>
                             <a href="evaluations.php?recipeID=<?php echo $recipe_info['recipeID']?>&title=<?php echo $recipe_info['title']?>&ownerID=<?php echo $recipe_info['userID']?>" class="btn btn-primary">Evaluation</a>
-
-
-                            
-                            
-                        </div>
-                        <div>
-                        <form action="homepage.php" method="post">
+                            <p></p>
+                            <form action="homepage.php" method="post">
                             <input type="submit" value="Like" name="btnAction" class="btn btn-primary" 
                                 title="Click to like recipe" />
                             <input type="hidden" name="recipe_to_like" 
                                 value="<?php echo $recipe_info['recipeID']; ?>"
                             />
                         </form>
-                        
-                        <!-- THIS IS THE UNIMPLEMENTED MORE INFO BUTTON 
-                        <form method="" action="">
-                            <input type="submit" name="submit" value="More Info">
-                            
-                        </form>
-                        -->
-                        
-                        
                         <?php 
                             if ( getRecipeInstructions( $recipe_info['recipeID'])!= null ){
                                 ?>
+                                <center>
                                 <p>INSTRUCTIONS</p>
+                            </center>
                                 <?php $instructions = getRecipeInstructions( $recipe_info['recipeID']); ?>
                                 <?php foreach($instructions as $one_instruct) ?>
                                     <?php echo $one_instruct?>
@@ -257,14 +245,31 @@ function filterDaRecipes( $filtered, $list_of_recipes )
                             <?php
                             if ( getRecipeIngredients( $recipe_info['recipeID'])!= null ){
                             ?>
+                            <center>
                                 <p>INGREDIENTS</p>
+                            </center>
                                 <?php $ingredients = getRecipeIngredients( $recipe_info['recipeID']); ?>
                                 <?php foreach($ingredients as $one_ingred) ?>
                                 <?php echo $one_ingred?>
-
+                                    <p></p>
                                 <?php
                             }
                         ?>
+                            
+                            
+                        </div>
+                        <div>
+                        
+                        
+                        <!-- THIS IS THE UNIMPLEMENTED MORE INFO BUTTON 
+                        <form method="" action="">
+                            <input type="submit" name="submit" value="More Info">
+                            
+                        </form>
+                        -->
+                        
+                        
+                        
                         </div>
                     </div>
                     <p></p>
