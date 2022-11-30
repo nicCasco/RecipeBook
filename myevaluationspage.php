@@ -43,9 +43,9 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 </div>
 <div>
 <link rel="stylesheet" href="margin.css">
-
+<center>
     <h1> My Evaluations </h1>
-
+</center>
     <div class='row'>
         <?php foreach ($list_of_my_entries as $entry_info): ?>
         <!-- /* Display contents of recipes here */ -->
