@@ -81,6 +81,7 @@ if($_SERVER['REQUEST_METHOD']=='POST')
 </div>
 <link rel="stylesheet" href="margin.css">
 <div>
+<p>&nbsp</p>
     <center><h1> My Recipes </h1></center>
     <p>&nbsp</p>
     <form name="addRecipeForm" action="recipespage.php" method="post">
@@ -89,7 +90,7 @@ if($_SERVER['REQUEST_METHOD']=='POST')
             <input type="text" class="form-control" name="author" required
                 value="<?php if ($recipe_to_update!=null) echo $recipe_to_update['author'] ?>"
             />
-            <p>&nbsp</p>
+            <p></p>
         </div>
         <div class="row">
             Title:
@@ -98,7 +99,7 @@ if($_SERVER['REQUEST_METHOD']=='POST')
             />
             
         </div>
-        <p>&nbsp</p>
+        <p></p>
         <div class="row">
             Category:
             <input type="text" class="form-control" name="category" required
@@ -106,7 +107,7 @@ if($_SERVER['REQUEST_METHOD']=='POST')
             />
             
         </div>
-        <p>&nbsp</p>
+        <p></p>
         <div class="row">
         Time:
             <input type="text" class="form-control" name="time" required
@@ -114,14 +115,14 @@ if($_SERVER['REQUEST_METHOD']=='POST')
             />
             
         </div>
-        <p>&nbsp</p>
+        <p></p>
          <div class="row">
         Instructions:
             <input type="text" class="form-control" name="instructions" required
             value="<?php if ($instructions_update!=null) echo $instructions_update['instructions'] ?>"/>
             
         </div>
-        <p>&nbsp</p>
+        <p></p>
         <div class="row">
         Ingredients:
             <input type="text" class="form-control" name="ingredients" required
@@ -140,7 +141,7 @@ if($_SERVER['REQUEST_METHOD']=='POST')
             <input type="text" class="form-control" name="video" required/>
             
         </div> -->
-        <p>&nbsp</p>
+        <p></p>
         <div>
             <input type="submit" value="Add" name="btnAction" class="btn btn-dark" 
                 title="Insert a recipe" />

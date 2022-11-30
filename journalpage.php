@@ -55,6 +55,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 </div>
 <link rel="stylesheet" href="margin.css">
 <div>
+<p>&nbsp</p>
     <center>
     <h1> My Journal </h1>
     </center>
@@ -64,7 +65,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             Date:
             <input type="date" class="form-control" name="journalDate" required/>
         </div>
-        <p>&nbsp</p>
+        <p></p>
         <div class ="row">
             Entry:
             <input type="text" class="form-control" name="journalEntry"/>
